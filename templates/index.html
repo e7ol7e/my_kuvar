@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-4xl font-bold mb-8 text-center">Список задач</h1>
+
+<!-- Форма создания задачи -->
+<form hx-post="/tasks" hx-target="#task-list" hx-swap="outerHTML" class="mb-8 card bg-base-100 shadow-xl p-6">
+    <div class="form-control">
+        <label class="label"><span class="label-text">Заголовок</span></label>
+        <input type="text" name="title" required class="input input-bordered" />
+    </div>
+    <div class="form-control mt-4">
+        <label class="label"><span class="label-text">Описание (опционально)</span></label>
+        <textarea name="description" class="textarea textarea-bordered"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-6">Добавить задачу</button>
+</form>
+
+<!-- Список задач -->
+<div id="task-list">
+    {% include "partials/task_list.html" %}
+</div>
+{% endblock %}
