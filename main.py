@@ -47,24 +47,26 @@ async def create_task(
     return templates.TemplateResponse("partials/task_list.html", {"request": request, "tasks": tasks})
 
 @app.patch("/tasks/{task_id}/toggle", response_class=HTMLResponse)
-async def toggle_task(
-    task_id: int,
-    request: Request,
-    session: Session = Depends(get_session)
-):
+async def toggle_task(task_id: int, request: Request, session: Session = Depends(get_session)):
     task = session.get(Task, task_id)
     if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=404)
     
     task.completed = not task.completed
     session.add(task)
     session.commit()
 
-    statement = select(Task).order_by(Task.created_at.desc())
-    tasks = session.exec(statement).all()
-    response  = templates.TemplateResponse("partials/task_list.html", {"request": request, "tasks": tasks})
-    response.headers["HX-Trigger"] = "taskUpdated"
-    return response
+    tasks = session.exec(select(Task).order_by(Task.created_at.desc())).all()
+    
+    # Основной контент
+    list_html = templates.TemplateResponse("partials/task_list.html", {"request": request, "tasks": tasks})
+    
+    # Добавляем OOB-своп для переинициализации HTMX
+    oob_script = '<script src="https://unpkg.com/htmx.org@1.9.10" hx-oob-swap="true"></script>'
+    
+    return HTMLResponse(content=list_html.body + oob_script.encode())
+
+
 @app.delete("/tasks/{task_id}", response_class=HTMLResponse)
 async def delete_task(
     task_id: int,

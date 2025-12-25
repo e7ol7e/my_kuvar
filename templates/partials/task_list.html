@@ -1,32 +1,35 @@
-<ul class="space-y-4">
+<ul class="space-y-4" id="task-list" hx-swap-oob="true">
     {% if tasks %}
         {% for task in tasks %}
         <li class="card bg-base-100 shadow-xl p-6 flex justify-between items-start">
-            <div class="{% if task.completed %}line-through text-gray-500{% endif %}">
+            <div class="{% if task.completed %}line-through text-gray-500{% endif %} flex-1">
                 <h3 class="text-xl font-semibold">{{ task.title }}</h3>
                 {% if task.description %}
                     <p class="text-gray-600 mt-2">{{ task.description }}</p>
                 {% endif %}
-                <p class="text-sm text-gray-500 mt-4">Создано: {{ task.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+                <p class="text-sm text-gray-500 mt-4">
+                    Создано: {{ task.created_at.strftime('%d.%m.%Y %H:%M') }}
+                </p>
             </div>
-            <div class="flex gap-2">
-                <button hx-patch="/tasks/{{ task.id }}/toggle"
-                        hx-target="#task-list"
-                        hx-swap="outerHTML"
-                        class="btn btn-sm {% if task.completed %}btn-success{% else %}btn-outline{% endif %}">
-                    {% if task.completed %}Выполнено{% else %}Не выполнено{% endif %}
-                </button>
-                <button hx-delete="/tasks/{{ task.id }}"
-                        hx-target="#task-list"
-                        hx-swap="outerHTML"
-                        hx-confirm="Удалить задачу?"
-                        class="btn btn-sm btn-error">
-                    Удалить
-                </button>
+            <div class="flex gap-2 ml-4">
+ <button hx-patch="/tasks/{{ task.id }}/toggle"
+        hx-target="#task-list"
+        hx-swap="innerHTML"
+        class="btn btn-sm {% if task.completed %}btn-success{% else %}btn-outline{% endif %}">
+    {% if task.completed %}Выполнено{% else %}В процессе{% endif %}
+</button>
+
+<button hx-delete="/tasks/{{ task.id }}"
+        hx-target="#task-list"
+        hx-swap="innerHTML"
+        hx-confirm="Удалить задачу?"
+        class="btn btn-sm btn-error">
+    Удалить
+</button>
             </div>
         </li>
         {% endfor %}
     {% else %}
-        <p class="text-center text-gray-500">Нет задач. Добавьте первую!</p>
+        <p class="text-center text-gray-500 py-8">Нет задач. Добавьте первую!</p>
     {% endif %}
-</ul>   
+</ul>
