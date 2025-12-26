@@ -32,3 +32,12 @@ uv run uvicorn main:app --reload --host 0.0.0.0 --port 8888
    Все действия (добавление, изменение статуса, удаление) происходят **мгновенно без перезагрузки страницы** благодаря HTMX.
 
 Готово! Теперь вы можете полноценно управлять списком задач.
+
+
+## 🚀 Live Demo: 
+
+The application is deployed on Render and available online:
+
+👉 https://todo-app-7acz.onrender.com
+
+Try it now — fully functional, no installation needed!

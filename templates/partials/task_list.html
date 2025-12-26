@@ -12,20 +12,19 @@
                 </p>
             </div>
             <div class="flex gap-2 ml-4">
- <button hx-patch="/tasks/{{ task.id }}/toggle"
-        hx-target="#task-list"
-        hx-swap="innerHTML"
-        class="btn btn-sm {% if task.completed %}btn-success{% else %}btn-outline{% endif %}">
-    {% if task.completed %}Выполнено{% else %}В процессе{% endif %}
-</button>
-
-<button hx-delete="/tasks/{{ task.id }}"
-        hx-target="#task-list"
-        hx-swap="innerHTML"
-        hx-confirm="Удалить задачу?"
-        class="btn btn-sm btn-error">
-    Удалить
-</button>
+                <button hx-patch="/tasks/{{ task.id }}/toggle"
+                        hx-target="#task-list"
+                        hx-swap="innerHTML"
+                        class="btn btn-sm {% if task.completed %}btn-success{% else %}btn-outline{% endif %}">
+                    {% if task.completed %}Выполнено{% else %}В процессе{% endif %}
+                </button>
+                <button hx-delete="/tasks/{{ task.id }}"
+                        hx-target="#task-list"
+                        hx-swap="innerHTML"
+                        hx-confirm="Удалить задачу?"
+                        class="btn btn-sm btn-error">
+                    Удалить
+                </button>
             </div>
         </li>
         {% endfor %}
